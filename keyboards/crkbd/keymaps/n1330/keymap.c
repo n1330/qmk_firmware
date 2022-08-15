@@ -21,20 +21,116 @@ enum custom_keycodes {
   RAISE,
   EI,
   KANA,
-  ALTTAB,
-  APP,
   DVORAK,
   NAGINATA,
+};
+
+enum tap_dance_keycodes {
+  Q,
+  COMM,
+  DOT,
+  SCLN,
+};
+
+void comm_finished(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    register_code(KC_COMM);
+  } else {
+    layer_off(_DVORAK);
+    naginata_off();
+    tap_code(KC_LANG2);
+    tap_code(KC_MHEN);
+  }
+}
+
+void comm_reset(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    unregister_code(KC_COMM);
+  }
+}
+
+void dot_finished(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    register_code(KC_DOT);
+  } else {
+    layer_off(_DVORAK);
+    naginata_off();
+    tap_code(KC_LANG1);
+    tap_code(KC_HENK);
+  }
+}
+
+void dot_reset(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    unregister_code(KC_DOT);
+  }
+}
+
+typedef enum {
+  SINGLE_TAP,
+  SINGLE_HOLD,
+  DOUBLE_TAP,
+  ELSE,
+} td_state_t;
+static td_state_t td_state;
+
+int cur_dance (qk_tap_dance_state_t *state) {
+  if (state->count == 1) {
+    if (state->interrupted || !state->pressed) { return SINGLE_TAP; }
+    else { return SINGLE_HOLD; }
+  }
+  if (state->count == 2) { return DOUBLE_TAP; }
+  else { return ELSE; }
+}
+
+void scln_finished (qk_tap_dance_state_t *state, void *user_data) {
+  td_state = cur_dance(state);
+  switch (td_state) {
+    case SINGLE_TAP:
+      register_code(KC_SCLN);
+      break;
+    case SINGLE_HOLD:
+      register_mods(MOD_BIT(KC_RSFT));
+      break;
+    case DOUBLE_TAP:
+      register_code(KC_ESC);
+      break;
+    case ELSE:
+      break;
+  }
+}
+
+void scln_reset (qk_tap_dance_state_t *state, void *user_data) {
+  switch (td_state) {
+    case SINGLE_TAP:
+      unregister_code(KC_SCLN);
+      break;
+    case SINGLE_HOLD:
+      unregister_mods(MOD_BIT(KC_RSFT));
+      break;
+    case DOUBLE_TAP:
+      unregister_code(KC_ESC);
+      break;
+    case ELSE:
+      break;
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [Q] = ACTION_TAP_DANCE_DOUBLE(KC_Q, KC_ESC),
+  [COMM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, comm_finished, comm_reset),
+  [DOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dot_finished, dot_reset),
+  [SCLN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, scln_finished, scln_reset)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
+      XXXXXXX,   TD(Q),    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,SFT_T(KC_A),SGUI_T(KC_S),CTL_T(KC_D),GUI_T(KC_F),KC_G,         ALT_T(KC_H),GUI_T(KC_J),CTL_T(KC_K),SGUI_T(KC_L), SFT_T(KC_SCLN), KC_MINS,
+      XXXXXXX,SFT_T(KC_A),SGUI_T(KC_S),CTL_T(KC_D),GUI_T(KC_F),KC_G,         ALT_T(KC_H),GUI_T(KC_J),CTL_T(KC_K),SGUI_T(KC_L), TD(SCLN), KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,TD(COMM), TD(DOT), KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                       EI,LT(_LOWER,KC_SPC),  KC_TAB,    KC_BSPC,LT(_RAISE,KC_ENT),    KANA
                                       //`--------------------------'  `--------------------------'
