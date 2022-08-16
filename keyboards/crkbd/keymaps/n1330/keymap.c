@@ -157,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LOWER] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,  KC_DEL, KC_TILD, KC_EXLM, KC_AMPR, KC_PIPE,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
+      XXXXXXX,  KC_DEL, KC_EXLM, KC_PIPE, KC_AMPR, KC_TILD,                      KC_PLUS, KC_ASTR, KC_MINS,  KC_EQL, KC_PERC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -169,7 +169,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = LAYOUT_split_3x6_3(
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,  KC_DEL, KC_TILD, KC_EXLM, KC_AMPR, KC_PIPE,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
+      XXXXXXX,  KC_DEL, KC_EXLM, KC_PIPE, KC_AMPR, KC_TILD,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX, KC_HASH, KC_UNDS,  KC_DQT, KC_QUOT,  KC_GRV,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT,  KC_ESC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
