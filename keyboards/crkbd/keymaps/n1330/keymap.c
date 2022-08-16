@@ -27,110 +27,29 @@ enum custom_keycodes {
 
 enum tap_dance_keycodes {
   Q,
-  COMM,
-  DOT,
-  SCLN,
 };
-
-void comm_finished(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code(KC_COMM);
-  } else {
-    layer_off(_DVORAK);
-    naginata_off();
-    tap_code(KC_LANG2);
-    tap_code(KC_MHEN);
-  }
-}
-
-void comm_reset(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    unregister_code(KC_COMM);
-  }
-}
-
-void dot_finished(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code(KC_DOT);
-  } else {
-    layer_off(_DVORAK);
-    naginata_off();
-    tap_code(KC_LANG1);
-    tap_code(KC_HENK);
-  }
-}
-
-void dot_reset(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    unregister_code(KC_DOT);
-  }
-}
-
-typedef enum {
-  SINGLE_TAP,
-  SINGLE_HOLD,
-  DOUBLE_TAP,
-  ELSE,
-} td_state_t;
-static td_state_t td_state;
-
-int cur_dance (qk_tap_dance_state_t *state) {
-  if (state->count == 1) {
-    if (state->interrupted || !state->pressed) { return SINGLE_TAP; }
-    else { return SINGLE_HOLD; }
-  }
-  if (state->count == 2) { return DOUBLE_TAP; }
-  else { return ELSE; }
-}
-
-void scln_finished (qk_tap_dance_state_t *state, void *user_data) {
-  td_state = cur_dance(state);
-  switch (td_state) {
-    case SINGLE_TAP:
-      register_code(KC_SCLN);
-      break;
-    case SINGLE_HOLD:
-      register_mods(MOD_BIT(KC_RSFT));
-      break;
-    case DOUBLE_TAP:
-      register_code(KC_ESC);
-      break;
-    case ELSE:
-      break;
-  }
-}
-
-void scln_reset (qk_tap_dance_state_t *state, void *user_data) {
-  switch (td_state) {
-    case SINGLE_TAP:
-      unregister_code(KC_SCLN);
-      break;
-    case SINGLE_HOLD:
-      unregister_mods(MOD_BIT(KC_RSFT));
-      break;
-    case DOUBLE_TAP:
-      unregister_code(KC_ESC);
-      break;
-    case ELSE:
-      break;
-  }
-}
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [Q] = ACTION_TAP_DANCE_DOUBLE(KC_Q, KC_ESC),
-  [COMM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, comm_finished, comm_reset),
-  [DOT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dot_finished, dot_reset),
-  [SCLN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, scln_finished, scln_reset)
 };
+
+#define MAP_A SFT_T(KC_A)
+#define MAP_S ALT_T(KC_S)
+#define MAP_D CTL_T(KC_D)
+#define MAP_F GUI_T(KC_F)
+#define MAP_J GUI_T(KC_J)
+#define MAP_K CTL_T(KC_K)
+#define MAP_L ALT_T(KC_L)
+#define SCLN SFT_T(KC_SCLN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,   TD(Q),    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,SFT_T(KC_A),ALT_T(KC_S),CTL_T(KC_D),GUI_T(KC_F),KC_G,              KC_H,GUI_T(KC_J),CTL_T(KC_K),ALT_T(KC_L),TD(SCLN),KC_MINS,
+      XXXXXXX,   MAP_A,   MAP_S,   MAP_D,   MAP_F,    KC_G,                         KC_H,   MAP_J,   MAP_K,   MAP_L,    SCLN, KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,TD(COMM), TD(DOT), KC_SLSH, XXXXXXX,
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                       EI,LT(_LOWER,KC_SPC),  KC_TAB,    KC_BSPC,LT(_RAISE,KC_ENT),    KANA
                                       //`--------------------------'  `--------------------------'
@@ -169,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = LAYOUT_split_3x6_3(
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,  KC_DEL, KC_EXLM, KC_PIPE, KC_AMPR, KC_TILD,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
+      XXXXXXX,  KC_DEL, KC_EXLM, KC_PIPE, KC_AMPR, KC_TILD,                      KC_PLUS, KC_ASTR, KC_MINS,  KC_EQL, KC_PERC, XXXXXXX,
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX, KC_HASH, KC_UNDS,  KC_DQT, KC_QUOT,  KC_GRV,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT,  KC_ESC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -183,11 +102,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,  KC_F11,  KC_F12, XXXXXXX,  DVORAK,NAGINATA,                      _______, _______, _______, _______, _______, XXXXXXX,
+      XXXXXXX,  KC_F11,  KC_F12, XXXXXXX,  DVORAK,NAGINATA,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
+                                          _______, _______, _______,     KC_DEL, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -203,6 +122,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 };
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case MAP_A:
+    case MAP_S:
+    case MAP_L:
+    case SCLN:
+      return TAPPING_TERM + 50;
+    default:
+      return TAPPING_TERM;
+  }
+}
 
 uint8_t layer_state_set_user(uint8_t state) {
     return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
