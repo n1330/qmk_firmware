@@ -20,7 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define MASTER_LEFT
+#define LAYER_STATE_8BIT
+#define EE_HANDS
 
 #define TAPPING_TERM 180
 #define IGNORE_MOD_TAP_INTERRUPT

@@ -128,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,   TD(Q),    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,SFT_T(KC_A),SGUI_T(KC_S),CTL_T(KC_D),GUI_T(KC_F),KC_G,         ALT_T(KC_H),GUI_T(KC_J),CTL_T(KC_K),SGUI_T(KC_L), TD(SCLN), KC_MINS,
+      XXXXXXX,SFT_T(KC_A),ALT_T(KC_S),CTL_T(KC_D),GUI_T(KC_F),KC_G,              KC_H,GUI_T(KC_J),CTL_T(KC_K),ALT_T(KC_L),TD(SCLN),KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,TD(COMM), TD(DOT), KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -157,21 +157,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LOWER] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, KC_AMPR, KC_PIPE, KC_TILD, KC_EXLM,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
+      XXXXXXX,  KC_DEL, KC_TILD, KC_EXLM, KC_AMPR, KC_PIPE,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_CIRC,  KC_DLR, XXXXXXX, KC_LPRN, KC_LCBR,                      KC_RCBR, KC_RPRN, KC_LABK, KC_RABK, KC_SLSH, XXXXXXX,
+      XXXXXXX, KC_CIRC,  KC_DLR, KC_COLN, KC_LPRN, KC_LCBR,                      KC_RCBR, KC_RPRN, KC_LABK, KC_RABK, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______,  KC_DEL, MO(_NUM)
+                                          _______, _______, _______,    _______, _______, MO(_NUM)
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_RAISE] = LAYOUT_split_3x6_3(
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, KC_AMPR, KC_PIPE, KC_TILD, KC_EXLM,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
+      XXXXXXX,  KC_DEL, KC_TILD, KC_EXLM, KC_AMPR, KC_PIPE,                      KC_PLUS,  KC_EQL, KC_MINS, KC_ASTR, KC_PERC, XXXXXXX,
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, KC_HASH,  KC_GRV,  KC_DQT, KC_QUOT, KC_UNDS,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT,  KC_ESC, XXXXXXX,
+      XXXXXXX, KC_HASH, KC_UNDS,  KC_DQT, KC_QUOT,  KC_GRV,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT,  KC_ESC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_CIRC,  KC_DLR, KC_LBRC, KC_LPRN, KC_LCBR,                      KC_RCBR, KC_RPRN, KC_RBRC, KC_BSLS,   KC_AT, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------|--------+--------+--------+--------+--------+
@@ -204,7 +204,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-uint32_t layer_state_set_user(uint32_t state) {
+uint8_t layer_state_set_user(uint8_t state) {
     return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
