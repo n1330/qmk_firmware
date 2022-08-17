@@ -156,8 +156,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case EI:
       if (record->event.pressed) {
-        layer_on(_COLEMAKDH);
         naginata_off();
+        layer_off(_QWERTY);
+        layer_on(_COLEMAKDH);
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
       }
@@ -165,6 +166,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KANA:
       if (record->event.pressed) {
+        layer_off(_COLEMAKDH);
         layer_on(_QWERTY);
         naginata_off();
         tap_code(KC_LANG1);
@@ -186,6 +188,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case COLEMAKDH:
       if (record->event.pressed) {
         naginata_off();
+        layer_off(_QWERTY);
         layer_on(_COLEMAKDH);
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
@@ -195,6 +198,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case QWERTY:
       if (record->event.pressed) {
         naginata_off();
+        layer_off(_COLEMAKDH);
         layer_on(_QWERTY);
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
