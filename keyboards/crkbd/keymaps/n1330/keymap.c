@@ -6,8 +6,8 @@
 NGKEYS naginata_keys;
 
 enum keymap_layers {
-  _QWERTY,
   _COLEMAKDH,
+  _QWERTY,
   _NAGINATA,
   _LOWER,
   _RAISE,
@@ -17,47 +17,35 @@ enum keymap_layers {
 
 enum custom_keycodes {
   QWERTY = NG_SAFE_RANGE,
+  COLEMAKDH,
+  NAGINATA,
   LOWER,
   RAISE,
   EI,
   KANA,
   ESC,
-  COLEMAKDH,
-  NAGINATA,
 };
 
 // QWERTY
 #define MAP_A SFT_T(KC_A)
 #define MAP_S ALT_T(KC_S)
-#define MAP_D CTL_T(KC_D)
-#define MAP_F GUI_T(KC_F)
-#define MAP_J GUI_T(KC_J)
-#define MAP_K CTL_T(KC_K)
+#define MAP_D GUI_T(KC_D)
+#define MAP_F CTL_T(KC_F)
+#define MAP_J CTL_T(KC_J)
+#define MAP_K GUI_T(KC_K)
 #define MAP_L ALT_T(KC_L)
 #define SCLN SFT_T(KC_SCLN)
 
 //COLEMAKDH
 #define MAP_R ALT_T(KC_R)
-#define MAPC_S CTL_T(KC_S)
-#define MAP_T GUI_T(KC_T)
-#define MAP_N GUI_T(KC_N)
-#define MAP_E CTL_T(KC_E)
+#define MAPC_S GUI_T(KC_S)
+#define MAP_T CTL_T(KC_T)
+#define MAP_N CTL_T(KC_N)
+#define MAP_E GUI_T(KC_E)
 #define MAP_I ALT_T(KC_I)
 #define MAP_O SFT_T(KC_O)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_QWERTY] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,   MAP_A,   MAP_S,   MAP_D,   MAP_F,    KC_G,                         KC_H,   MAP_J,   MAP_K,   MAP_L,    SCLN, KC_MINS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                      EI,LT(_LOWER,KC_SPC),  KC_TAB,    KC_BSPC,LT(_RAISE,KC_ENT),    KANA
-                                      //`--------------------------'  `--------------------------'
-  ),
-
   [_COLEMAKDH] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,  XXXXXXX,
@@ -70,11 +58,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
+  [_QWERTY] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX,   MAP_A,   MAP_S,   MAP_D,   MAP_F,    KC_G,                         KC_H,   MAP_J,   MAP_K,   MAP_L,    SCLN, KC_MINS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                      EI,LT(_LOWER,KC_SPC),  KC_TAB,    KC_BSPC,LT(_RAISE,KC_ENT),    KANA
+                                      //`--------------------------'  `--------------------------'
+  ),
+
   [_NAGINATA] = LAYOUT_split_3x6_3(
     _______,NG_Q   ,NG_W   ,NG_E   ,NG_R   ,NG_T   ,                NG_Y   ,NG_U   ,NG_I   ,NG_O   ,NG_P   ,_______,
     _______,NG_A   ,NG_S   ,NG_D   ,NG_F   ,NG_G   ,                NG_H   ,NG_J   ,NG_K   ,NG_L   ,NG_SCLN,_______,
     _______,NG_Z   ,NG_X   ,NG_C   ,NG_V   ,NG_B   ,                NG_N   ,NG_M   ,NG_COMM,NG_DOT ,NG_SLSH,_______,
-                                    _______,NG_SHFT,_______,_______,_______,_______
+                                    _______,NG_SHFT,MO(_LOWER),_______,_______,_______
   ),
 
   [_LOWER] = LAYOUT_split_3x6_3(
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX,  KC_ESC,  KC_DEL,  KC_ENT,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX,COLEMAKDH,NAGINATA,XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX,  QWERTY,NAGINATA,XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,   MO(_NUM),_______, _______
                                       //`--------------------------'  `--------------------------'
@@ -97,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,  KC_DQT, KC_CIRC,  KC_DLR, KC_LBRC, KC_RBRC,                      KC_COLN, KC_EXLM, KC_LABK, KC_RABK, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------|--------+--------+--------+--------+--------+
-                                          _______, _______, _______,    _______, _______, _______
+                                          _______, _______, KC_BSPC,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -109,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,  KC_DQT, KC_CIRC,  KC_DLR, KC_LBRC, KC_RBRC,                      KC_COLN, KC_EXLM, KC_LABK, KC_RABK, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
+                                          _______, _______, KC_BSPC,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -156,7 +156,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case EI:
       if (record->event.pressed) {
-        layer_off(_COLEMAKDH);
+        layer_on(_COLEMAKDH);
         naginata_off();
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
@@ -165,7 +165,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KANA:
       if (record->event.pressed) {
-        layer_off(_COLEMAKDH);
+        layer_on(_QWERTY);
         naginata_off();
         tap_code(KC_LANG1);
         tap_code(KC_HENK);
@@ -175,7 +175,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case ESC:
       if (record->event.pressed) {
         register_code(KC_ESC);
-        layer_off(_COLEMAKDH);
         naginata_off();
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
@@ -188,6 +187,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         naginata_off();
         layer_on(_COLEMAKDH);
+        tap_code(KC_LANG2);
+        tap_code(KC_MHEN);
+      }
+      return false;
+      break;
+    case QWERTY:
+      if (record->event.pressed) {
+        naginata_off();
+        layer_on(_QWERTY);
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
       }
