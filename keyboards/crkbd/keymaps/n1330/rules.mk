@@ -4,7 +4,6 @@ SPACE_CADET_ENABLE = no
 MAGIC_ENABLE = no
 MOUSEKEY_ENABLE = no
 LTO_ENABLE      = yes
-TAP_DANCE_ENABLE = yes
 
 # naginata
 UNICODE_ENABLE = yes

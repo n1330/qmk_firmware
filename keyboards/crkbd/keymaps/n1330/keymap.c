@@ -7,7 +7,7 @@ NGKEYS naginata_keys;
 
 enum keymap_layers {
   _QWERTY,
-  _DVORAK,
+  _COLEMAKDH,
   _NAGINATA,
   _LOWER,
   _RAISE,
@@ -21,18 +21,12 @@ enum custom_keycodes {
   RAISE,
   EI,
   KANA,
-  DVORAK,
+  ESC,
+  COLEMAKDH,
   NAGINATA,
 };
 
-enum tap_dance_keycodes {
-  Q,
-};
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [Q] = ACTION_TAP_DANCE_DOUBLE(KC_Q, KC_ESC),
-};
-
+// QWERTY
 #define MAP_A SFT_T(KC_A)
 #define MAP_S ALT_T(KC_S)
 #define MAP_D CTL_T(KC_D)
@@ -42,10 +36,19 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define MAP_L ALT_T(KC_L)
 #define SCLN SFT_T(KC_SCLN)
 
+//COLEMAKDH
+#define MAP_R ALT_T(KC_R)
+#define MAPC_S CTL_T(KC_S)
+#define MAP_T GUI_T(KC_T)
+#define MAP_N GUI_T(KC_N)
+#define MAP_E CTL_T(KC_E)
+#define MAP_I ALT_T(KC_I)
+#define MAP_O SFT_T(KC_O)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,   TD(Q),    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
+      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,   MAP_A,   MAP_S,   MAP_D,   MAP_F,    KC_G,                         KC_H,   MAP_J,   MAP_K,   MAP_L,    SCLN, KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -55,44 +58,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [_DVORAK] = LAYOUT_split_3x6_3(
+  [_COLEMAKDH] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-    _______,   KC_SCLN, KC_COMM,  KC_DOT,    KC_P,    KC_Y,                         KC_F,    KC_G,    KC_C,    KC_R,    KC_L, _______,
+      XXXXXXX,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______,      KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                         KC_D,    KC_H,    KC_T,    KC_N,    KC_S, _______,
+      XXXXXXX,   MAP_A,   MAP_R,  MAPC_S,   MAP_T,    KC_G,                         KC_M,   MAP_N,   MAP_E,   MAP_I,   MAP_O, KC_MINS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______,   KC_QUOT,    KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,    KC_W,    KC_V,    KC_Z, _______,
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
+                                      EI,LT(_LOWER,KC_SPC),  KC_TAB,    KC_BSPC,LT(_RAISE,KC_ENT),    KANA
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_NAGINATA] = LAYOUT_split_3x6_3(
-    _______,NG_Q   ,NG_W   ,NG_E   ,NG_R   ,NG_T   ,                NG_Y   ,NG_U   ,NG_I   ,NG_O   ,NG_P   ,_______, \
-    _______,NG_A   ,NG_S   ,NG_D   ,NG_F   ,NG_G   ,                NG_H   ,NG_J   ,NG_K   ,NG_L   ,NG_SCLN,_______, \
-    _______,NG_Z   ,NG_X   ,NG_C   ,NG_V   ,NG_B   ,                NG_N   ,NG_M   ,NG_COMM,NG_DOT ,NG_SLSH,_______, \
+    _______,NG_Q   ,NG_W   ,NG_E   ,NG_R   ,NG_T   ,                NG_Y   ,NG_U   ,NG_I   ,NG_O   ,NG_P   ,_______,
+    _______,NG_A   ,NG_S   ,NG_D   ,NG_F   ,NG_G   ,                NG_H   ,NG_J   ,NG_K   ,NG_L   ,NG_SCLN,_______,
+    _______,NG_Z   ,NG_X   ,NG_C   ,NG_V   ,NG_B   ,                NG_N   ,NG_M   ,NG_COMM,NG_DOT ,NG_SLSH,_______,
                                     _______,NG_SHFT,_______,_______,_______,_______
   ),
 
   [_LOWER] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,  KC_DEL, KC_EXLM, KC_PIPE, KC_AMPR, KC_TILD,                      KC_PLUS, KC_ASTR, KC_MINS,  KC_EQL, KC_PERC, XXXXXXX,
+      XXXXXXX, _______,   KC_F2,   KC_F4, KC_BSPC, _______,                      _______, _______, _______, _______,_______,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX,  KC_ESC,  KC_DEL,  KC_ENT,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_CIRC,  KC_DLR, KC_COLN, KC_LPRN, KC_LCBR,                      KC_RCBR, KC_RPRN, KC_LABK, KC_RABK, KC_SLSH, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX,COLEMAKDH,NAGINATA,XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, MO(_NUM)
+                                          _______, _______, _______,   MO(_NUM),_______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_RAISE] = LAYOUT_split_3x6_3(
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,  KC_DEL, KC_EXLM, KC_PIPE, KC_AMPR, KC_TILD,                      KC_PLUS, KC_ASTR, KC_MINS,  KC_EQL, KC_PERC, XXXXXXX,
+      XXXXXXX,    KC_5,    KC_3,    KC_1,    KC_9,    KC_7,                         KC_6,    KC_8,    KC_0,    KC_2,    KC_4, XXXXXXX,
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, KC_HASH, KC_UNDS,  KC_DQT, KC_QUOT,  KC_GRV,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT,  KC_ESC, XXXXXXX,
+      XXXXXXX, KC_QUOT, KC_HASH, KC_UNDS, KC_LPRN, KC_RPRN,                      KC_PERC,  KC_EQL, KC_MINS, KC_ASTR, KC_PLUS, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_CIRC,  KC_DLR, KC_LBRC, KC_LPRN, KC_LCBR,                      KC_RCBR, KC_RPRN, KC_RBRC, KC_BSLS,   KC_AT, XXXXXXX,
+      XXXXXXX,  KC_DQT, KC_CIRC,  KC_DLR, KC_LBRC, KC_RBRC,                      KC_COLN, KC_EXLM, KC_LABK, KC_RABK, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------|--------+--------+--------+--------+--------+
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -100,13 +103,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10, XXXXXXX,
+      XXXXXXX,    KC_5,    KC_3,    KC_1,    KC_9,    KC_7,                         KC_6,    KC_8,    KC_0,    KC_2,    KC_4, XXXXXXX,
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, KC_BSLS,  KC_GRV,   KC_AT, KC_LCBR, KC_RCBR,                      KC_PERC,  KC_EQL, KC_TILD, KC_AMPR, KC_PIPE, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,  KC_F11,  KC_F12, XXXXXXX,  DVORAK,NAGINATA,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, XXXXXXX,
+      XXXXXXX,  KC_DQT, KC_CIRC,  KC_DLR, KC_LBRC, KC_RBRC,                      KC_COLN, KC_EXLM, KC_LABK, KC_RABK, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,     KC_DEL, _______, _______
+                                          _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -129,7 +132,10 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case MAP_S:
     case MAP_L:
     case SCLN:
-      return TAPPING_TERM + 50;
+    case MAPC_S:
+    case MAP_I:
+    case MAP_O:
+      return TAPPING_TERM + 60;
     default:
       return TAPPING_TERM;
   }
@@ -150,7 +156,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case EI:
       if (record->event.pressed) {
-        layer_off(_DVORAK);
+        layer_off(_COLEMAKDH);
         naginata_off();
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
@@ -159,17 +165,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KANA:
       if (record->event.pressed) {
-        layer_off(_DVORAK);
+        layer_off(_COLEMAKDH);
         naginata_off();
         tap_code(KC_LANG1);
         tap_code(KC_HENK);
       }
       return false;
       break;
-    case DVORAK:
+    case ESC:
+      if (record->event.pressed) {
+        register_code(KC_ESC);
+        layer_off(_COLEMAKDH);
+        naginata_off();
+        tap_code(KC_LANG2);
+        tap_code(KC_MHEN);
+      } else {
+        unregister_code(KC_ESC);
+      }
+      return false;
+      break;
+    case COLEMAKDH:
       if (record->event.pressed) {
         naginata_off();
-        layer_on(_DVORAK);
+        layer_on(_COLEMAKDH);
         tap_code(KC_LANG2);
         tap_code(KC_MHEN);
       }
